@@ -1,5 +1,5 @@
 <?php
-$secret_key = "YOUR_SECRET_KEY";
+$secret_key = "6LdC-TUlAAAAANl5YxnhTcMPkiZkqSeSGy_jy2nw";
 $response = $_POST["g-recaptcha-response"];
 $remote_ip = $_SERVER["REMOTE_ADDR"];
 
