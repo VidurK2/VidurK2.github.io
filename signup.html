@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
-$secret_key = "6LdC-TUlAAAAANl5YxnhTcMPkiZkqSeSGy_jy2nw";
+$secret_key = 6LdC-TUlAAAAANl5YxnhTcMPkiZkqSeSGy_jy2nw;
 $response = $_POST["g-recaptcha-response"];
 $remote_ip = $_SERVER["REMOTE_ADDR"];
 
@@ -80,7 +80,7 @@ if ($json->success) {
 		<input type="email" name="email" required>
 		<label for="password">Password:</label>
 		<input type="password" name="password" required>
-		<div class="g-recaptcha" data-sitekey="6LdC-TUlAAAAAP0lagJifuu8xfYAQ4-m6Up_JdUv"></div>
+		<div class="g-recaptcha" data-sitekey=6LdC-TUlAAAAAP0lagJifuu8xfYAQ4-m6Up_JdUv></div>
 		<button type="submit">Sign Up</button>
 	</form>
 
