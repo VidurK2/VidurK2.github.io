@@ -1,27 +1,36 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+$secret_key = "YOUR_SECRET_KEY";
+$response = $_POST["g-recaptcha-response"];
+$remote_ip = $_SERVER["REMOTE_ADDR"];
+
+$url = "https://www.google.com/recaptcha/api/siteverify";
+$data = array(
+	"secret" => $secret_key,
+	"response" => $response,
+	"remoteip" => $remote_ip
+);
+
+$options = array(
+	"http" => array(
+		"method" => "POST",
+		"content" => http_build_query($data),
+		"header" => "Content-Type: application/x-www-form-urlencoded\r\n"
+	)
+);
+
+$context = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+$json = json_decode($result);
+
+if ($json->success) {
+	// reCAPTCHA validation passed, process form data
 	$name = $_POST["name"];
 	$email = $_POST["email"];
 	$password = $_POST["password"];
 
-	// Google reCAPTCHA verification
-	$secret = "YOUR_SECRET_KEY";
-	$response = $_POST["g-recaptcha-response"];
-	$remoteip = $_SERVER["REMOTE_ADDR"];
-	$url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret&response=$response&remoteip=$remoteip";
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$output = curl_exec($ch);
-	curl_close($ch);
-	$result = json_decode($output, true);
-
-	if($result["success"] == true) {
-		// Code to process the form data
-		// ...
-		echo "Sign up successful!";
-	} else {
-		echo "reCAPTCHA verification failed. Please try again.";
-	}
+	// do something with the form data, e.g. store in database
+} else {
+	// reCAPTCHA validation failed, show error message
+	echo "reCAPTCHA validation failed!";
 }
 ?>
